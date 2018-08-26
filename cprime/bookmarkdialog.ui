@@ -14,7 +14,7 @@
    <string>Bookmark It</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../icons.qrc">
+   <iconset>
     <normaloff>:/app/icons/app-icons/Bookmarks.svg</normaloff>:/app/icons/app-icons/Bookmarks.svg</iconset>
   </property>
   <property name="styleSheet">
@@ -23,6 +23,12 @@
   <layout class="QGridLayout" name="gridLayout">
    <item row="2" column="1">
     <widget class="QLabel" name="path">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="text">
       <string>TextLabel</string>
      </property>
@@ -102,8 +108,6 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="../icons.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

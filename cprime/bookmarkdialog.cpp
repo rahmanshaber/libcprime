@@ -30,6 +30,9 @@ bookmarkDialog::bookmarkDialog(QWidget *parent) : QDialog(parent),ui(new Ui::boo
     ui->bkSection->clear();
     ui->bkSection->addItems(bk.getBookSections());
     ui->done->setEnabled(false);
+
+    BookmarkManage bm;
+    bm.checkBook();
 }
 
 bookmarkDialog::~bookmarkDialog()

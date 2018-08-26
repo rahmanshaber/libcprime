@@ -45,14 +45,23 @@ public:
     QString getThemeName();
     bool setThemeName(QString themeName);
 
-    bool setFileManager(QString termName);
+    bool setFileManager(QString fmName);
     QString getFileManager();
 
-    bool setTextEditor(QString termName);
+    bool setTextEditor(QString textEditorName);
     QString getTextEditor();
 
-    bool setImageViewer(QString termName);
+    bool setImageViewer(QString imageViewerName);
     QString getImageViewer();
+
+    bool setImageEditor(QString imageEditorName);
+    QString getImageEditor();
+
+    bool setPDFVierwer(QString imageEditorName);
+    QString getPDFVierwer();
+
+    bool setMediaPlayer(QString imageEditorName);
+    QString getMediaPlayer();
 
     bool getIsRealMimeType();
     bool setIsRealMimeType(bool isRealMime);

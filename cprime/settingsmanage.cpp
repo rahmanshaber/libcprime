@@ -36,6 +36,9 @@ void SettingsManage::createDefaultSettings()
         cSetting->setValue("File-Manager", "CoreFM");
         cSetting->setValue("Text-Editor", "CorePad");
         cSetting->setValue("Image-Viewer", "CoreImage");
+        cSetting->setValue("Image-Editor", "CorePaint");
+        cSetting->setValue("Media-Player", "CorePlayer");
+        cSetting->setValue("PDF-Viewer", "CorePDF");
         cSetting->endGroup();
 
         cSetting->beginGroup("CoreFM");
@@ -89,6 +92,14 @@ QVariant SettingsManage::getSpecificValue(QString groupName, QString keyName) {
 
 //-------------------------CoreApps--------------------------------------
 
+bool SettingsManage::setThemeName(QString themeName) {
+    return setSpecificValue("CoreApps", "Force-Theme", themeName);
+}
+
+QString SettingsManage::getThemeName() {
+    return getSpecificValue("CoreApps", "Force-Theme").toString();
+}
+
 bool SettingsManage::setDisableRecent(bool showRecent) {
     return setSpecificValue("CoreApps", "Recent-Disable", showRecent);
 }
@@ -129,41 +140,57 @@ QString SettingsManage::getTerminal() {
     return getSpecificValue("CoreApps", "Terminal").toString();
 }
 
-bool SettingsManage::setFileManager(QString termName) {
-    return setSpecificValue("CoreApps", "File-Manager", termName);
+bool SettingsManage::setFileManager(QString fmName) {
+    return setSpecificValue("CoreApps", "File-Manager", fmName);
 }
 
 QString SettingsManage::getFileManager() {
     return getSpecificValue("CoreApps", "File-Manager").toString();
 }
 
-bool SettingsManage::setTextEditor(QString termName) {
-    return setSpecificValue("CoreApps", "Text-Editor", termName);
+bool SettingsManage::setTextEditor(QString textEditorName) {
+    return setSpecificValue("CoreApps", "Text-Editor", textEditorName);
 }
 
 QString SettingsManage::getTextEditor() {
     return getSpecificValue("CoreApps", "Text-Editor").toString();
 }
 
-bool SettingsManage::setImageViewer(QString termName) {
-    return setSpecificValue("CoreApps", "Image-Viewer", termName);
+bool SettingsManage::setImageViewer(QString imageViewerName) {
+    return setSpecificValue("CoreApps", "Image-Viewer", imageViewerName);
 }
 
 QString SettingsManage::getImageViewer() {
     return getSpecificValue("CoreApps", "Image-Viewer").toString();
 }
+
+bool SettingsManage::setImageEditor(QString imageEditorName) {
+    return setSpecificValue("CoreApps", "Image-Editor", imageEditorName);
+}
+
+QString SettingsManage::getImageEditor() {
+    return getSpecificValue("CoreApps", "Image-Editor").toString();
+}
+
+bool SettingsManage::setPDFVierwer(QString pdfVierwerName) {
+    return setSpecificValue("CoreApps", "PDF-Viewer", pdfVierwerName);
+}
+
+QString SettingsManage::getPDFVierwer() {
+    return getSpecificValue("CoreApps", "PDF-Viewer").toString();
+}
+
+bool SettingsManage::setMediaPlayer(QString imageEditorName) {
+    return setSpecificValue("CoreApps", "Media-Player", imageEditorName);
+}
+
+QString SettingsManage::getMediaPlayer() {
+    return getSpecificValue("CoreApps", "Media-Player").toString();
+}
 //-------------------------CoreApps--------------------------------------
 
 
 //-------------------------CoreFM--------------------------------------
-
-bool SettingsManage::setThemeName(QString themeName) {
-    return setSpecificValue("CoreFM", "Force-Theme", themeName);
-}
-
-QString SettingsManage::getThemeName() {
-    return getSpecificValue("CoreFM", "Force-Theme").toString();
-}
 
 bool SettingsManage::setStartupPath(const QString path) {
     return setSpecificValue("CoreFM", "Startup-Path", path);

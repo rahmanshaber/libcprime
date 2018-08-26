@@ -62,12 +62,15 @@ enum Category {
     FileManager,
     TextEditor,
     ImageViewer,
+    ImageEditor,
+    MediaPlayer,
+    PDFViwer,
     Terminal
 };
 
 static void appEngine(GlobalFunc::Category ctg , const QString path);
 
-static void appEngines(QString appName, const QString &arg = nullptr);
+static void systemAppOpener(QString appName, const QString &arg = nullptr);
 
 // bool checkRecentActivityFile();
 

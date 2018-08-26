@@ -25,9 +25,27 @@ along with this program; if not, see {http://www.gnu.org/licenses/}. */
 #include <QStyle>
 #include <QGraphicsDropShadowEffect>
 #include <QDesktopWidget>
+#include <QScreen>
+#include <QFileInfo>
+#include <QFile>
+#include <QDir>
+#include <QDateTime>
+#include <QLabel>
+#include <QWidget>
+#include <QVBoxLayout>
+#include <QFrame>
+#include <QTimer>
+#include <QFontMetrics>
+#include <QIcon>
+#include <QMimeDatabase>
+#include <QMimeType>
+#include <QApplication>
+#include <QDate>
+#include <QTime>
+#include <QCollator>
+#include <QMessageBox>
 
 #include "settingsmanage.h"
-//#include "corefm/fileutils.h"
 
 #include "libcprime_global.h"
 

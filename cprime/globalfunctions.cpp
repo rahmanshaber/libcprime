@@ -16,25 +16,6 @@ along with this program; if not, see {http://www.gnu.org/licenses/}. */
 
 #include "globalfunctions.h"
 
-//#include "corepad/corepad.h"
-//#include "start/start.h"
-//#include "settings/settings.h"
-//#include "start/sessionsavedialog.h"
-//#include "about/about.h"
-//#include "help/help.h"
-//#include "search/search.h"
-//#include "dashboard/dashboard.h"
-//#include "corefm/corefm.h"
-//#include "corepaint/corepaint.h"
-//#include "coreimage/coreimage.h"
-//#include "coreplayer/coreplayer.h"
-//#include "coreaction/coreaction.h"
-//#include "coretime/coretime.h"
-//#include "corepdf/corepdf.h"
-//#include "coreterminal/coreterminal.h"
-//#include "corerenamer/corerenamer.h"
-
-
 
 //bool checkRecentActivityFile()
 //{
@@ -61,11 +42,14 @@ void GlobalFunc::appEngine(GlobalFunc::Category ctg ,const QString path)
 
         QString defultFileManager = sm.getFileManager(); // selected FileManager name from settings.
 
-        QProcess::startDetached(defultFileManager, QStringList() << path);
+        QProcess::startDetached(defultFileManager.toLower(), QStringList() << path);
 
-        // Function from utilities.cpp
+        // Show message
         QString mess = defultFileManager + " opening " ;
         Utilities::messageEngine(mess, Utilities::MessageType::Info);
+
+        // Save file to RecentActivity
+        Utilities::saveToRecent(defultFileManager,path);
 
         break;
     }
@@ -73,11 +57,14 @@ void GlobalFunc::appEngine(GlobalFunc::Category ctg ,const QString path)
 
         QString defultTextEditor = sm.getTextEditor(); // selected TextEditor name from settings.
 
-        QProcess::startDetached(defultTextEditor, QStringList() << path);
+        QProcess::startDetached(defultTextEditor.toLower(), QStringList() << path);
 
-        // Function from utilities.cpp
+        // Show message
         QString mess = defultTextEditor + " opening " ;
         Utilities::messageEngine(mess, Utilities::MessageType::Info);
+
+        // Save file to RecentActivity
+        Utilities::saveToRecent(defultTextEditor,path);
 
         break;
     }
@@ -85,14 +72,67 @@ void GlobalFunc::appEngine(GlobalFunc::Category ctg ,const QString path)
 
         QString defultImageViewer = sm.getImageViewer(); // selected ImageViewer name from settings.
 
-        QProcess::startDetached(defultImageViewer, QStringList() << path);
+        QProcess::startDetached(defultImageViewer.toLower(), QStringList() << path);
 
-        // Function from utilities.cpp
+        // Show message
         QString mess = defultImageViewer + " opening " ;
         Utilities::messageEngine(mess, Utilities::MessageType::Info);
 
+        // Save file to RecentActivity
+        Utilities::saveToRecent(defultImageViewer,path);
+
         break;
     }
+
+    case GlobalFunc::Category::ImageEditor: {
+
+        QString defultImageEditor = sm.getImageEditor(); // selected ImageEditor name from settings.
+
+        QProcess::startDetached(defultImageEditor.toLower(), QStringList() << path);
+
+        // Show message
+        QString mess = defultImageEditor + " opening " ;
+        Utilities::messageEngine(mess, Utilities::MessageType::Info);
+
+        // Save file to RecentActivity
+        Utilities::saveToRecent(defultImageEditor,path);
+
+        break;
+    }
+
+    case GlobalFunc::Category::MediaPlayer: {
+
+        QString defultMediaPlayer = sm.getMediaPlayer(); // selected ImageEditor name from settings.
+
+        QProcess::startDetached(defultMediaPlayer.toLower(), QStringList() << path);
+
+        // Show message
+        QString mess = defultMediaPlayer + " opening " ;
+        Utilities::messageEngine(mess, Utilities::MessageType::Info);
+
+        // Save file to RecentActivity
+        Utilities::saveToRecent(defultMediaPlayer,path);
+
+        break;
+    }
+
+
+    case GlobalFunc::Category::PDFViwer: {
+
+        QString defultPDFViwer = sm.getPDFVierwer(); // selected ImageEditor name from settings.
+
+        QProcess::startDetached(defultPDFViwer.toLower(), QStringList() << path);
+
+        // Show message
+        QString mess = defultPDFViwer + " opening " ;
+        Utilities::messageEngine(mess, Utilities::MessageType::Info);
+
+        // Save file to RecentActivity
+        Utilities::saveToRecent(defultPDFViwer,path);
+
+        break;
+    }
+
     case GlobalFunc::Category::Terminal: {
 
         QString defultTerminal = sm.getTerminal(); // selected terminal name from settings.
@@ -101,12 +141,12 @@ void GlobalFunc::appEngine(GlobalFunc::Category ctg ,const QString path)
         args.removeAt(0);
 
         if (name == "CoreTerminal") {
-            GlobalFunc::appEngines("CoreTerminal",path);
+            GlobalFunc::systemAppOpener("CoreTerminal",path);
         } else {
             QProcess::startDetached(name, args, path);
         }
 
-        // Function from utilities.cpp
+        // Show message
         QString mess = defultTerminal + " opening " ;
         Utilities::messageEngine(mess, Utilities::MessageType::Info);
 
@@ -119,12 +159,11 @@ void GlobalFunc::appEngine(GlobalFunc::Category ctg ,const QString path)
 
 #include <QString>
 #include <QStringList>
-void GlobalFunc::appEngines(QString appName, const QString &arg) // engine to open app in window
+void GlobalFunc::systemAppOpener(QString appName, const QString &arg) // engine to open app in window
 {
-    QString cmd = "coreBox";
-    QProcess::startDetached(cmd ,QStringList() <<  QString ("--" + appName.toLower()) << arg);
+    QProcess::startDetached(appName.toLower(), QStringList() << arg);
 
-    // Function from utilities.cpp
+    // Show message
     QString mess = appName + " opening " ;
     Utilities::messageEngine(mess, Utilities::MessageType::Info);
 }
@@ -139,42 +178,48 @@ void GlobalFunc::appSelectionEngine(const QString &path) // engine send right fi
         return;
     }
 
-    QStringList image, txts,pdf;
-    image << "jpg" << "jpeg" << "png" << "bmp" << "ico" << "svg" << "gif";
-    txts << "txt" << "pro" << "";
-    pdf << "pdf";
+    QStringList image,txts,pdf,media;
+    image << "jpg" << "jpeg" << "png" << "bmp" << "ico" << "svg" << "gif" ;
+    txts << "txt" << "pro" << "" ;
+    pdf << "pdf" << "xps" << "oxps" << "epub" << "cbr" << "cbz" << "cbt" << "cba" ;
+    media << "webm" << "ogg" << "mpeg" << "mov" << "mkv" << "flv" << "avi"
+           << "mp3" << "aac" << "m4a"  << "flac";
 
     QString suffix = QFileInfo(path).suffix();
 
-    //CoreFM
+    //File Manager
     if (info.isDir()) {
         GlobalFunc::appEngine(GlobalFunc::Category::FileManager, info.absoluteFilePath());
         return;
     }
 
-    //CoreImage
+    //Image Viewer
     else if (image.contains(suffix, Qt::CaseInsensitive)) {
         GlobalFunc::appEngine(GlobalFunc::Category::ImageViewer, info.absoluteFilePath());
         return;
     }
 
-    //CorePad
+    //Text Editor
     else if (txts.contains(suffix, Qt::CaseInsensitive)) {
         GlobalFunc::appEngine(GlobalFunc::Category::TextEditor, info.absoluteFilePath());
         return;
     }
 
-    //CorePDF
+    //PDF Viewer
     else if (pdf.contains(suffix, Qt::CaseInsensitive)) {
-        GlobalFunc::appEngines("CorePDF", info.absoluteFilePath());
+        GlobalFunc::appEngine(GlobalFunc::Category::PDFViwer, info.absoluteFilePath());
         return;
     }
 
-    //sendtomimeutils
+    //Media Player
+    else if (media.contains(suffix, Qt::CaseInsensitive)) {
+        GlobalFunc::appEngine(GlobalFunc::Category::MediaPlayer, info.absoluteFilePath());
+        return;
+    }
+
+    //sendto System
     else {
-//        MimeUtils *mimeUtils;
-//        mimeUtils = new MimeUtils(this);
-//        mimeUtils->openInApp(QFileInfo(s),this);
+        QProcess::startDetached("xdg-open", QStringList() << path);
     }
 }
 
